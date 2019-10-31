@@ -5,12 +5,19 @@ import com.murphy.community.dto.AccessTokenDTO;
 import com.murphy.community.dto.GithubUser;
 import com.murphy.community.dto.ResponseAccessToken;
 import okhttp3.*;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
 @Component
 public class GithubProvider {
+    @Value("${github.access.token.uri}")
+    private String accessTokenUri;
+
+    @Value("${github.user.uri}")
+    private String userUri;
+
     public String getAccessToken(AccessTokenDTO accessTokenDTO) {
         MediaType mediaType = MediaType.get("application/json; charset=utf-8");
 
@@ -18,7 +25,7 @@ public class GithubProvider {
 
         RequestBody body = RequestBody.create(JSON.toJSONString(accessTokenDTO), mediaType);
         Request request = new Request.Builder()
-                .url("https://github.com/login/oauth/access_token")
+                .url(accessTokenUri)
                 .post(body)
                 .header("Accept", "application/json")
                 .build();
@@ -37,7 +44,7 @@ public class GithubProvider {
         OkHttpClient client = new OkHttpClient();
 
         Request request = new Request.Builder()
-                .url("https://api.github.com/user")
+                .url(userUri)
                 .header("Authorization", "token " + accessToken)
                 .build();
 
