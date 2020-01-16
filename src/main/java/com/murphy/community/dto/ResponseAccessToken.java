@@ -1,5 +1,8 @@
 package com.murphy.community.dto;
 
+/**
+ * @author 233murphy
+ */
 public class ResponseAccessToken {
     private String access_token;
     private String token_type;
