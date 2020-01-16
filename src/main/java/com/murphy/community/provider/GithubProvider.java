@@ -10,6 +10,9 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
+/**
+ * @author 233murphy
+ */
 @Component
 public class GithubProvider {
     @Value("${github.access.token.uri}")
