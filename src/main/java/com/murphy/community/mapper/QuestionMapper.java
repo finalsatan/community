@@ -26,4 +26,7 @@ public interface QuestionMapper {
 
     @Select("select * from question where creator=#{userId} order by gmt_modified desc, id desc")
     Page<Question> listByUserId(Integer userId);
+
+    @Select("select * from question where id=#{id}")
+    Question findById(Integer id);
 }
