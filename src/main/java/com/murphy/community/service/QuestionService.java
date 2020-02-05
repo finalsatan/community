@@ -52,4 +52,26 @@ public class QuestionService {
 
         return questionDTOsPageInfo;
     }
+
+    public PageInfo<QuestionDTO> list(Integer userId, Integer page, Integer size) {
+        PageHelper.startPage(page, size);
+        PageInfo<Question> questionPageInfo = new PageInfo<>(questionMapper.listByUserId(userId));
+
+        PageInfo<QuestionDTO> questionDTOsPageInfo = new PageInfo<>();
+        BeanUtils.copyProperties(questionPageInfo, questionDTOsPageInfo);
+
+        List<QuestionDTO> questionDTOList = new ArrayList<>();
+
+        for (Question question : questionPageInfo.getList()) {
+            User user = userMapper.findById(question.getCreator());
+            QuestionDTO questionDTO = new QuestionDTO();
+            BeanUtils.copyProperties(question, questionDTO);
+            questionDTO.setUser(user);
+            questionDTOList.add(questionDTO);
+        }
+
+        questionDTOsPageInfo.setList(questionDTOList);
+
+        return questionDTOsPageInfo;
+    }
 }

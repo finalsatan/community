@@ -23,4 +23,7 @@ public interface QuestionMapper {
 
     @Select("select * from question order by gmt_modified desc, id desc")
     Page<Question> list();
+
+    @Select("select * from question where creator=#{userId} order by gmt_modified desc, id desc")
+    Page<Question> listByUserId(Integer userId);
 }
