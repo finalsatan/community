@@ -47,3 +47,14 @@ spring:
         wall:
           config:
             multi-statement-allow: true
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+
+pagehelper:
+  # 数据库
+  helper-dialect: mysql
+  # 判断合理性比如负数和超过最大总数
+  reasonable: true
+  # 支持方法参数
+  support-methods-arguments: true
