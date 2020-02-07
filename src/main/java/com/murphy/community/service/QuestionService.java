@@ -3,6 +3,9 @@ package com.murphy.community.service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.murphy.community.dto.QuestionDTO;
+import com.murphy.community.exception.CustomizeErrorCode;
+import com.murphy.community.exception.CustomizeException;
+import com.murphy.community.exception.ICustomizeErrorCode;
 import com.murphy.community.mapper.QuestionMapper;
 import com.murphy.community.model.Question;
 import com.murphy.community.model.QuestionExample;
@@ -82,7 +85,11 @@ public class QuestionService {
         QuestionDTO questionDTO = new QuestionDTO();
 
         Question question = questionMapper.selectByPrimaryKey(id);
-        BeanUtils.copyProperties(question,questionDTO);
+        if (question == null) {
+            throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+        }
+
+        BeanUtils.copyProperties(question, questionDTO);
 
         User user = userService.findById(question.getCreator());
 
@@ -91,11 +98,11 @@ public class QuestionService {
     }
 
     public void createOrUpdate(Question question) {
-        if (question.getId()==null){
+        if (question.getId() == null) {
             question.setGmtCreate(System.currentTimeMillis());
             question.setGmtModified(question.getGmtCreate());
             questionMapper.insert(question);
-        }else{
+        } else {
             Question updateQuestion = new Question();
             updateQuestion.setId(question.getId());
             updateQuestion.setTitle(question.getTitle());
@@ -103,7 +110,10 @@ public class QuestionService {
             updateQuestion.setTag(question.getTag());
             updateQuestion.setGmtModified(System.currentTimeMillis());
 
-            questionMapper.updateByPrimaryKeySelective(updateQuestion);
+            int updated = questionMapper.updateByPrimaryKeySelective(updateQuestion);
+            if (updated != 1) {
+                throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+            }
         }
     }
 
