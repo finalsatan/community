@@ -17,7 +17,7 @@ spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
-      driver-class-name: com.mysql.cj.jdbc.Driver
+      driver-class-name:
       url: jdbc:mysql://localhost:3306/community?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
       username: root
       password:
@@ -50,6 +50,8 @@ spring:
 mybatis:
   configuration:
     map-underscore-to-camel-case: true
+  type-aliases-package: com.murphy.community.mapper
+  mapper-locations: classpath:mapper/*.xml
 
 pagehelper:
   # 数据库

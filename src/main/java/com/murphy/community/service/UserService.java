@@ -2,8 +2,11 @@ package com.murphy.community.service;
 
 import com.murphy.community.mapper.UserMapper;
 import com.murphy.community.model.User;
+import com.murphy.community.model.UserExample;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * UserService
@@ -18,17 +21,36 @@ public class UserService {
     UserMapper userMapper;
 
     public void createOrUpdate(User user) {
-        User dbUser = userMapper.findByAccountId(user.getAccountId());
-        if (dbUser==null){
+        UserExample userExample = new UserExample();
+        userExample.createCriteria().andAccountIdEqualTo(user.getAccountId());
+        List<User> dbUsers = userMapper.selectByExample(userExample);
+        if (dbUsers.size() == 0) {
             user.setCreatedAt(System.currentTimeMillis());
             user.setUpdatedAt(user.getCreatedAt());
             userMapper.insert(user);
-        }else{
-            dbUser.setUpdatedAt(System.currentTimeMillis());
-            dbUser.setAvatarUrl(user.getAvatarUrl());
-            dbUser.setToken(user.getToken());
-            dbUser.setName(user.getName());
-            userMapper.update(dbUser);
+        } else {
+            User dbUser = dbUsers.get(0);
+            User updateUser = new User();
+            updateUser.setUpdatedAt(System.currentTimeMillis());
+            updateUser.setAvatarUrl(user.getAvatarUrl());
+            updateUser.setToken(user.getToken());
+            updateUser.setName(user.getName());
+            updateUser.setId(dbUser.getId());
+            userMapper.updateByPrimaryKeySelective(updateUser);
         }
+    }
+
+    public User findByToken(String token) {
+        UserExample userExample = new UserExample();
+        userExample.createCriteria().andTokenEqualTo(token);
+        List<User> users = userMapper.selectByExample(userExample);
+        if (users.size() != 0) {
+            return users.get(0);
+        }
+        return null;
+    }
+
+    public User findById(Integer id) {
+        return userMapper.selectByPrimaryKey(id);
     }
 }

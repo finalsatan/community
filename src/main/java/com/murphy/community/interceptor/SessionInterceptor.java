@@ -2,6 +2,7 @@ package com.murphy.community.interceptor;
 
 import com.murphy.community.mapper.UserMapper;
 import com.murphy.community.model.User;
+import com.murphy.community.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -21,7 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 @Service
 public class SessionInterceptor implements HandlerInterceptor {
     @Autowired
-    UserMapper userMapper;
+    UserService userService;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -30,7 +31,7 @@ public class SessionInterceptor implements HandlerInterceptor {
             for (Cookie cookie : cookies) {
                 if (cookie.getName().equals("token")) {
                     String token = cookie.getValue();
-                    User user = userMapper.findByToken(token);
+                    User user = userService.findByToken(token);
                     if (user != null) {
                         request.getSession().setAttribute("user", user);
                     }
