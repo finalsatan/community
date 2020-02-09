@@ -6,6 +6,7 @@ import com.murphy.community.dto.QuestionDTO;
 import com.murphy.community.exception.CustomizeErrorCode;
 import com.murphy.community.exception.CustomizeException;
 import com.murphy.community.exception.ICustomizeErrorCode;
+import com.murphy.community.mapper.QuestionExtMapper;
 import com.murphy.community.mapper.QuestionMapper;
 import com.murphy.community.model.Question;
 import com.murphy.community.model.QuestionExample;
@@ -28,6 +29,9 @@ import java.util.List;
 public class QuestionService {
     @Autowired
     private QuestionMapper questionMapper;
+
+    @Autowired
+    private QuestionExtMapper questionExtMapper;
 
     @Autowired
     private UserService userService;
@@ -117,4 +121,10 @@ public class QuestionService {
         }
     }
 
+    public void incView(Integer id) {
+        Question question = new Question();
+        question.setId(id);
+        question.setViewCount(1);
+        questionExtMapper.incView(question);
+    }
 }
