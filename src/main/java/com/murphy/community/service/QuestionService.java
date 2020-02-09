@@ -60,7 +60,7 @@ public class QuestionService {
         return questionDTOsPageInfo;
     }
 
-    public PageInfo<QuestionDTO> list(Integer userId, Integer page, Integer size) {
+    public PageInfo<QuestionDTO> list(Long userId, Integer page, Integer size) {
         PageHelper.startPage(page, size);
         QuestionExample example = new QuestionExample();
         example.setOrderByClause("`gmt_modified` DESC, `id` DESC");
@@ -85,7 +85,7 @@ public class QuestionService {
         return questionDTOsPageInfo;
     }
 
-    public QuestionDTO getById(Integer id) {
+    public QuestionDTO getById(Long id) {
         QuestionDTO questionDTO = new QuestionDTO();
 
         Question question = questionMapper.selectByPrimaryKey(id);
@@ -121,10 +121,10 @@ public class QuestionService {
         }
     }
 
-    public void incView(Integer id) {
+    public void incView(Long id) {
         Question question = new Question();
         question.setId(id);
         question.setViewCount(1);
-        questionExtMapper.incView(question);
+        questionExtMapper.incViewCount(question);
     }
 }

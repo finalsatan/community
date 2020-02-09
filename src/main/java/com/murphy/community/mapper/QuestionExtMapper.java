@@ -9,5 +9,6 @@ public interface QuestionExtMapper {
      *
      * @mbg.generated Fri Feb 07 20:03:08 CST 2020
      */
-    int incView(Question record);
+    int incViewCount(Question record);
+    int incCommentCount(Question record);
 }
