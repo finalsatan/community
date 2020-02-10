@@ -1,6 +1,6 @@
 package com.murphy.community.controller;
 
-import com.murphy.community.dto.CommentDTO;
+import com.murphy.community.dto.CommentCreateDTO;
 import com.murphy.community.dto.ResultDTO;
 import com.murphy.community.exception.CustomizeErrorCode;
 import com.murphy.community.model.Comment;
@@ -28,7 +28,7 @@ public class CommentController {
 
     @ResponseBody
     @PostMapping("/comment")
-    public ResultDTO post(@RequestBody CommentDTO commentDTO,
+    public ResultDTO post(@RequestBody CommentCreateDTO commentCreateDTO,
                           HttpServletRequest request) {
         User user = (User) request.getSession().getAttribute("user");
         if (user == null) {
@@ -36,9 +36,9 @@ public class CommentController {
         }
 
         Comment comment = new Comment();
-        comment.setParentId(commentDTO.getParentId());
-        comment.setType(commentDTO.getType());
-        comment.setContent(commentDTO.getContent());
+        comment.setParentId(commentCreateDTO.getParentId());
+        comment.setType(commentCreateDTO.getType());
+        comment.setContent(commentCreateDTO.getContent());
         comment.setGmtCreate(System.currentTimeMillis());
         comment.setGmtModified(comment.getGmtCreate());
         comment.setCommentator(user.getId());
