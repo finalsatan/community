@@ -4,10 +4,7 @@ import com.murphy.community.dto.CommentDTO;
 import com.murphy.community.enums.CommentTypeEnum;
 import com.murphy.community.exception.CustomizeErrorCode;
 import com.murphy.community.exception.CustomizeException;
-import com.murphy.community.mapper.CommentMapper;
-import com.murphy.community.mapper.QuestionExtMapper;
-import com.murphy.community.mapper.QuestionMapper;
-import com.murphy.community.mapper.UserMapper;
+import com.murphy.community.mapper.*;
 import com.murphy.community.model.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +35,9 @@ public class CommentService {
     QuestionExtMapper questionExtMapper;
 
     @Autowired
+    CommentExtMapper commentExtMapper;
+
+    @Autowired
     UserMapper userMapper;
 
     public void insert(Comment comment) {
@@ -66,6 +66,12 @@ public class CommentService {
             }
 
             commentMapper.insert(comment);
+
+            // 增加评论数
+            Comment parentComment = new Comment();
+            parentComment.setId(comment.getParentId());
+            parentComment.setCommentCount(1);
+            commentExtMapper.incCommentCount(parentComment);
         }
     }
 

@@ -70,11 +70,20 @@ body {
     cursor: pointer;
 }
 
-.menu .active{
+.menu .icon:hover {
     color: #499ef3;
 }
 
-.menu .icon:hover{
+.menu .comment-icon {
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.menu .comment-icon :hover {
+    color: #499ef3;
+}
+
+.menu .active {
     color: #499ef3;
 }
 
