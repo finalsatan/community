@@ -6,6 +6,7 @@ import com.murphy.community.exception.CustomizeErrorCode;
 import com.murphy.community.model.Comment;
 import com.murphy.community.model.User;
 import com.murphy.community.service.CommentService;
+import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,6 +34,15 @@ public class CommentController {
         User user = (User) request.getSession().getAttribute("user");
         if (user == null) {
             return ResultDTO.errorOf(CustomizeErrorCode.NOT_LOGIN);
+        }
+
+        if (commentCreateDTO == null){
+            return ResultDTO.errorOf(CustomizeErrorCode.CONTENT_IS_EMPTY);
+        }
+
+        commentCreateDTO.setContent(commentCreateDTO.getContent().trim());
+        if (commentCreateDTO.getContent().isEmpty()){
+            return ResultDTO.errorOf(CustomizeErrorCode.CONTENT_IS_EMPTY);
         }
 
         Comment comment = new Comment();

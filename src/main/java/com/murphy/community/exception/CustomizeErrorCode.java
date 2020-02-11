@@ -30,7 +30,11 @@ public enum CustomizeErrorCode implements ICustomizeErrorCode {
     /**
      * COMMENT_NOT_FOUND
      */
-    COMMENT_NOT_FOUND(2005,"评论不存在"),
+    COMMENT_NOT_FOUND(2006,"评论不存在"),
+    /**
+     * CONTENT_IS_EMPTY
+     */
+    CONTENT_IS_EMPTY(2007,"输入内容不能为空"),
     /**
      * INVALID_INPUT
      */

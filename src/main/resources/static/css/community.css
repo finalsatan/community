@@ -21,6 +21,10 @@ body {
     padding-top: 0px;
 }
 
+.media-heading-middle {
+    padding-top: 15px;
+}
+
 .text-desc {
     font-size: 12px;
     font-weight: normal;
@@ -74,4 +78,12 @@ body {
     padding-bottom: 5px;
     margin-bottom: 15px;
     border-bottom: 1px solid #eee;
+}
+
+#comment_section {
+    margin-top: 25px;
+}
+
+.question-title {
+    margin-top: 25px;
 }
