@@ -11,12 +11,17 @@ import com.murphy.community.mapper.QuestionMapper;
 import com.murphy.community.model.Question;
 import com.murphy.community.model.QuestionExample;
 import com.murphy.community.model.User;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * QuestionService
@@ -126,5 +131,26 @@ public class QuestionService {
         question.setId(id);
         question.setViewCount(1);
         questionExtMapper.incViewCount(question);
+    }
+
+    public List<QuestionDTO> selectRelated(QuestionDTO queryDTO) {
+        if (StringUtils.isBlank(queryDTO.getTag())) {
+            return new ArrayList<>();
+        }
+
+        Question question = new Question();
+        question.setId(queryDTO.getId());
+        String[] tags = StringUtils.split(queryDTO.getTag(), ',');
+        String regexpTag = Arrays.stream(tags).collect(Collectors.joining("|"));
+
+        question.setTag(regexpTag);
+        List<Question> questions = questionExtMapper.selectRelated(question);
+        List<QuestionDTO> questionDTOs = questions.stream().map(q -> {
+            QuestionDTO questionDTO = new QuestionDTO();
+            BeanUtils.copyProperties(q, questionDTO);
+            return questionDTO;
+        }).collect(Collectors.toList());
+
+        return questionDTOs;
     }
 }

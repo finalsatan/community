@@ -112,3 +112,19 @@ body {
 .sub-comments .btn {
     margin-top: 10px;
 }
+
+.question-tag {
+    margin-right: 5px;
+}
+
+.question-related {
+    line-height: 20px;
+    font-size: 12px;
+    list-style: none;
+    padding-left: 0;
+}
+
+.question-qrcode {
+    height: 40%;
+    width: 40%;
+}
