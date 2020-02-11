@@ -1,8 +1,8 @@
 package com.murphy.community.controller;
 
-import com.murphy.community.dto.CommentCreateDTO;
 import com.murphy.community.dto.CommentDTO;
 import com.murphy.community.dto.QuestionDTO;
+import com.murphy.community.enums.CommentTypeEnum;
 import com.murphy.community.service.CommentService;
 import com.murphy.community.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +32,7 @@ public class QuestionController {
     public String question(@PathVariable Long id,
                            Model model) {
         QuestionDTO questionDTO = questionService.getById(id);
-        List<CommentDTO> comments = commentService.listByQuestionId(id);
+        List<CommentDTO> comments = commentService.listByTargetId(id, CommentTypeEnum.QUESTION);
 
         //累加阅读数
         questionService.incView(id);

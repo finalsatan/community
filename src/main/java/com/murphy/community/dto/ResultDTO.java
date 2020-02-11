@@ -2,7 +2,6 @@ package com.murphy.community.dto;
 
 import com.murphy.community.exception.CustomizeErrorCode;
 import com.murphy.community.exception.CustomizeException;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 /**
@@ -13,24 +12,43 @@ import lombok.Data;
  */
 
 @Data
-@AllArgsConstructor
-public class ResultDTO {
+public class ResultDTO<T> {
     private Integer code;
     private String message;
+    private T data;
 
     public static ResultDTO errorOf(Integer code, String message) {
-        return new ResultDTO(code, message);
+        ResultDTO resultDTO = new ResultDTO();
+        resultDTO.setCode(code);
+        resultDTO.setMessage(message);
+        return resultDTO;
     }
 
     public static ResultDTO errorOf(CustomizeErrorCode errorCode) {
-        return new ResultDTO(errorCode.getCode(), errorCode.getMessage());
+        ResultDTO resultDTO = new ResultDTO();
+        resultDTO.setCode(errorCode.getCode());
+        resultDTO.setMessage(errorCode.getMessage());
+        return resultDTO;
     }
 
     public static ResultDTO okOf(){
-        return new ResultDTO(200,"成功");
+        ResultDTO resultDTO = new ResultDTO();
+        resultDTO.setCode(200);
+        resultDTO.setMessage("成功");
+        return resultDTO;
+    }
+    public static <T> ResultDTO okOf(T t){
+        ResultDTO resultDTO = new ResultDTO();
+        resultDTO.setCode(200);
+        resultDTO.setMessage("成功");
+        resultDTO.setData(t);
+        return resultDTO;
     }
 
     public static ResultDTO errorOf(CustomizeException e) {
-        return new ResultDTO(e.getCode(),e.getMessage());
+        ResultDTO resultDTO = new ResultDTO();
+        resultDTO.setCode(e.getCode());
+        resultDTO.setMessage(e.getMessage());
+        return resultDTO;
     }
 }
