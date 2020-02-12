@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * UserService
@@ -52,5 +54,13 @@ public class UserService {
 
     public User findById(Long id) {
         return userMapper.selectByPrimaryKey(id);
+    }
+
+    public Map<Long,User> findByIds(List<Long> ids){
+        UserExample userExample = new UserExample();
+        userExample.createCriteria().andIdIn(ids);
+        List<User> users = userMapper.selectByExample(userExample);
+        Map<Long, User> userMap = users.stream().collect(Collectors.toMap(user -> user.getId(), user -> user));
+        return userMap;
     }
 }

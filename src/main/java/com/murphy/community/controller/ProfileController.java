@@ -1,8 +1,11 @@
 package com.murphy.community.controller;
 
 import com.github.pagehelper.PageInfo;
+import com.murphy.community.dto.NotificationDTO;
 import com.murphy.community.dto.QuestionDTO;
+import com.murphy.community.model.Notification;
 import com.murphy.community.model.User;
+import com.murphy.community.service.NotificationService;
 import com.murphy.community.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,6 +28,9 @@ public class ProfileController {
     @Autowired
     QuestionService questionService;
 
+    @Autowired
+    NotificationService notificationService;
+
     @GetMapping("/profile/{action}")
     public String profile(HttpServletRequest request,
                           @PathVariable String action,
@@ -40,13 +46,19 @@ public class ProfileController {
         if ("questions".equals(action)) {
             model.addAttribute("section", "questions");
             model.addAttribute("sectionName", "我的提问");
+
+            PageInfo<QuestionDTO> questionPageInfo = questionService.list(user.getId(), page, size);
+            model.addAttribute("questions", questionPageInfo);
         } else if ("replies".equals(action)) {
             model.addAttribute("section", "replies");
             model.addAttribute("sectionName", "最新回复");
-        }
 
-        PageInfo<QuestionDTO> questionPageInfo = questionService.list(user.getId(), page, size);
-        model.addAttribute("questions", questionPageInfo);
+            PageInfo<NotificationDTO> notificationPageInfo = notificationService.list(user.getId(), page, size);
+            model.addAttribute("notifications", notificationPageInfo);
+            Long unreadCount = notificationService.unreadCount(user.getId());
+            model.addAttribute("unreadCount", unreadCount);
+
+        }
 
         return "profile";
     }

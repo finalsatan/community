@@ -36,9 +36,18 @@ public enum CustomizeErrorCode implements ICustomizeErrorCode {
      */
     CONTENT_IS_EMPTY(2007,"输入内容不能为空"),
     /**
+     * READ_NOTIFICATION_FAIL
+     */
+    READ_NOTIFICATION_FAIL(2008,"这不是您的信息"),
+    /**
+     * NOTIFICATION_NOT_FOUND
+     */
+    NOTIFICATION_NOT_FOUND(2009, "你找的通知不存在，换个试试吧！"),
+    /**
      * INVALID_INPUT
      */
-    INVALID_INPUT(2401,"参数不正确");
+    INVALID_INPUT(2401,"参数不正确")
+    ;
 
     private String message;
     private Integer code;

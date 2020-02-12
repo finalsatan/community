@@ -33,6 +33,7 @@
         <table tableName="comment" domainObjectName="Comment">
             <columnOverride column="content" jdbcType="VARCHAR" />
         </table>
+        <table tableName="notification" domainObjectName="Notification"></table>
 
     </context>
 </generatorConfiguration>
