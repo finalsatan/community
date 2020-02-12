@@ -5,9 +5,11 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link rel="stylesheet" href="/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="/css/editormd.css">
     <link rel="stylesheet" href="/css/community.css">
     <script src="/js/jquery-3.4.1.min.js" type="application/javascript"></script>
     <script src="/js/bootstrap.min.js" type="application/javascript"></script>
+    <script src="/js/editormd.min.js" type="application/javascript"></script>
     <script src="/js/community.js" type="application/javascript"></script>
 </head>
 <body>
@@ -27,8 +29,31 @@
                 </div>
                 <div class="form-group">
                     <label for="title">问题补充（必填，请参照右侧提示）:</label>
-                    <textarea name="description" id="description" th:text="${description}" class="form-control"
-                              cols="30" rows="10"></textarea>
+                    <!--                    <textarea name="description" id="description" th:text="${description}" class="form-control"-->
+                    <!--                              cols="30" rows="10"></textarea>-->
+
+                    <div id="question-editor">
+                        <textarea style="display:none;" name="description" id="description" th:text="${description}"
+                                  class="form-control" cols="30" rows="10"></textarea>
+                    </div>
+                    <script type="text/javascript">
+                        $(function () {
+                            var editor = editormd("question-editor", {
+                                width: "100%",
+                                height: "400px",
+                                path: "/js/editormd/lib/",
+                                watch: false,
+                                placeholder: "在这里补充问题详细信息",
+                                taskList             : true,          // Enable Github Flavored Markdown task lists
+                                emoji                : true,          // :emoji: , Support Github emoji, Twitter Emoji (Twemoji);
+                                                                       // Support FontAwesome icon emoji :fa-xxx: > Using fontAwesome icon web fonts;
+                                                                       // Support Editor.md logo icon emoji :editormd-logo: :editormd-logo-1x: > 1~8x;
+                                tex                  : true,          // TeX(LaTeX), based on KaTeX
+                                flowChart            : true,          // flowChart.js only support IE9+
+                                sequenceDiagram      : true
+                            });
+                        });
+                    </script>
                 </div>
                 <div class="form-group">
                     <label for="title">添加标签 :</label>
