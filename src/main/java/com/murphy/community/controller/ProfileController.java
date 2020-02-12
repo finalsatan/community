@@ -55,9 +55,6 @@ public class ProfileController {
 
             PageInfo<NotificationDTO> notificationPageInfo = notificationService.list(user.getId(), page, size);
             model.addAttribute("notifications", notificationPageInfo);
-            Long unreadCount = notificationService.unreadCount(user.getId());
-            model.addAttribute("unreadCount", unreadCount);
-
         }
 
         return "profile";

@@ -2,6 +2,7 @@ package com.murphy.community.interceptor;
 
 import com.murphy.community.mapper.UserMapper;
 import com.murphy.community.model.User;
+import com.murphy.community.service.NotificationService;
 import com.murphy.community.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,9 @@ public class SessionInterceptor implements HandlerInterceptor {
     @Autowired
     UserService userService;
 
+    @Autowired
+    NotificationService notificationService;
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         Cookie[] cookies = request.getCookies();
@@ -34,6 +38,8 @@ public class SessionInterceptor implements HandlerInterceptor {
                     User user = userService.findByToken(token);
                     if (user != null) {
                         request.getSession().setAttribute("user", user);
+                        Long unreadCount = notificationService.unreadCount(user.getId());
+                        request.getSession().setAttribute("unreadNotification", unreadCount);
                     }
                     break;
                 }

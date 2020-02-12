@@ -83,6 +83,7 @@
                 <div class="media" th:each="notification : ${notifications.list}">
                     <div class="media-body">
                         <p class="media-heading">
+                            <span th:text="${#dates.format(notification.gmtCreate,'yyyy-MM-dd HH:mm')}"></span> ·
                             <span th:text="${notification.notifierName + ' ' + notification.typeName + ' '}"></span>
                             <a th:href="@{'/notification/' + ${notification.id}}"
                                th:text="${notification.outerTitle}"></a>
@@ -137,7 +138,7 @@
                 <a href="/profile/replies"
                    th:class="${section == 'replies'} ? 'active list-group-item' : 'list-group-item'">
                     最新回复
-                    <span class="badge" th:text="${unreadCount}"></span>
+                    <span class="badge" th:text="${session.unreadNotification}"></span>
                 </a>
             </div>
         </div>
