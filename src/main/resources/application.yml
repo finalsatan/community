@@ -1,6 +1,14 @@
 server:
   port: 8887
 
+qcloud:
+  ufile:
+    secret-id: AKIDF0WptlNOGvMYZSwhCWbKo575xdFdliR2
+    secret-key: YprhHclgOrseDXcVAbmiPL2UklY5MOin
+    region: ap-chengdu
+    bucket-name: community-1300346570
+    path: https://community-1300346570.cos.ap-chengdu.myqcloud.com
+
 github:
   client:
     id: 53cd0606229ddef3e6e0

@@ -41,16 +41,17 @@
                             var editor = editormd("question-editor", {
                                 width: "100%",
                                 height: "400px",
-                                path: "/js/editormd/lib/",
+                                path: "/js/lib/",
                                 watch: false,
                                 placeholder: "在这里补充问题详细信息",
-                                taskList             : true,          // Enable Github Flavored Markdown task lists
-                                emoji                : true,          // :emoji: , Support Github emoji, Twitter Emoji (Twemoji);
-                                                                       // Support FontAwesome icon emoji :fa-xxx: > Using fontAwesome icon web fonts;
-                                                                       // Support Editor.md logo icon emoji :editormd-logo: :editormd-logo-1x: > 1~8x;
-                                tex                  : true,          // TeX(LaTeX), based on KaTeX
-                                flowChart            : true,          // flowChart.js only support IE9+
-                                sequenceDiagram      : true
+                                taskList: true,
+                                emoji: true,
+                                tex: true,
+                                flowChart: true,
+                                sequenceDiagram: true,
+                                imageUpload: true,
+                                imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+                                imageUploadURL: "/file/upload"
                             });
                         });
                     </script>
