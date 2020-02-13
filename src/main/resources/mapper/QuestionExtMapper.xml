@@ -26,4 +26,11 @@
     <select id="selectRelated" parameterType="com.murphy.community.model.Question" resultMap="BaseResultMap">
         select * from question where id!=#{id} and tag regexp #{tag} limit 10
     </select>
+    <select id="search" parameterType="com.murphy.community.dto.QuestionQueryDTO" resultMap="BaseResultMap">
+        select * from question
+        <if test="search != null">
+            where title regexp #{search}
+        </if>
+        order by gmt_modified DESC, id DESC
+    </select>
 </mapper>

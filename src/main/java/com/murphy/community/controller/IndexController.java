@@ -27,8 +27,9 @@ public class IndexController {
                         @RequestParam(name = "size", defaultValue = "7") Integer size,
                         @RequestParam(name = "search", required = false) String search) {
 
-        PageInfo<QuestionDTO> questionPageInfo = questionService.list(search,page, size);
+        PageInfo<QuestionDTO> questionPageInfo = questionService.list(search, page, size);
         model.addAttribute("questions", questionPageInfo);
+        model.addAttribute("search", search);
         return "index";
     }
 }

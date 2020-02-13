@@ -3,6 +3,7 @@ package com.murphy.community.service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.murphy.community.dto.QuestionDTO;
+import com.murphy.community.dto.QuestionQueryDTO;
 import com.murphy.community.exception.CustomizeErrorCode;
 import com.murphy.community.exception.CustomizeException;
 import com.murphy.community.exception.ICustomizeErrorCode;
@@ -42,10 +43,22 @@ public class QuestionService {
     private UserService userService;
 
     public PageInfo<QuestionDTO> list(String search, Integer page, Integer size) {
+//        example.setOrderByClause("`gmt_modified` DESC, `id` DESC");
+
+        QuestionQueryDTO questionQueryDTO = new QuestionQueryDTO();
+        questionQueryDTO.setPage(page);
+        questionQueryDTO.setSize(size);
+        search = StringUtils.trim(search);
+        if (!StringUtils.isBlank(search)) {
+            String[] keyWords = StringUtils.split(search, ' ');
+            String regexpKeyWords = Arrays.stream(keyWords).collect(Collectors.joining("|"));
+            questionQueryDTO.setSearch(regexpKeyWords);
+        }else{
+            questionQueryDTO.setSearch(null);
+        }
+
         PageHelper.startPage(page, size);
-        QuestionExample example = new QuestionExample();
-        example.setOrderByClause("`gmt_modified` DESC, `id` DESC");
-        PageInfo<Question> questionPageInfo = new PageInfo<>(questionMapper.selectByExample(example));
+        PageInfo<Question> questionPageInfo = new PageInfo<>(questionExtMapper.search(questionQueryDTO));
 
         PageInfo<QuestionDTO> questionDTOsPageInfo = new PageInfo<>();
         BeanUtils.copyProperties(questionPageInfo, questionDTOsPageInfo);

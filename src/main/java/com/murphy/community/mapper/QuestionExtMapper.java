@@ -1,5 +1,6 @@
 package com.murphy.community.mapper;
 
+import com.murphy.community.dto.QuestionQueryDTO;
 import com.murphy.community.model.Question;
 
 import java.util.List;
@@ -14,4 +15,5 @@ public interface QuestionExtMapper {
     int incViewCount(Question record);
     int incCommentCount(Question record);
     List<Question> selectRelated(Question record);
+    List<Question> search(QuestionQueryDTO questionQueryDTO);
 }
