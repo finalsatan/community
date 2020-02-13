@@ -6,6 +6,7 @@ import com.murphy.community.mapper.UserMapper;
 import com.murphy.community.model.User;
 import com.murphy.community.provider.GithubProvider;
 import com.murphy.community.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -21,6 +22,7 @@ import java.util.UUID;
  * @author 233murphy
  */
 @Controller
+@Slf4j
 public class AuthorizeController {
 
     @Autowired
@@ -68,6 +70,7 @@ public class AuthorizeController {
 
             return "redirect:/";
         } else {
+            log.error("callback get github user error, {}", githubUser);
             //登录失败，重新登录
             return "redirect:/";
         }
@@ -75,9 +78,9 @@ public class AuthorizeController {
 
     @GetMapping("/logout")
     public String logout(HttpServletRequest request,
-                         HttpServletResponse response){
+                         HttpServletResponse response) {
         request.getSession().removeAttribute("user");
-        Cookie cookie = new Cookie("token",null);
+        Cookie cookie = new Cookie("token", null);
         cookie.setMaxAge(0);
         response.addCookie(cookie);
 

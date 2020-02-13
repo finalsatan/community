@@ -68,3 +68,12 @@ pagehelper:
   reasonable: true
   # 支持方法参数
   support-methods-arguments: true
+
+logging:
+  file:
+    name: community.log
+    path: ./
+    max-size: 10MB
+    max-history: 7
+  level:
+    com.murphy.community.mapper: debug
