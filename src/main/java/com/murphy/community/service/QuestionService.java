@@ -41,7 +41,7 @@ public class QuestionService {
     @Autowired
     private UserService userService;
 
-    public PageInfo<QuestionDTO> list(Integer page, Integer size) {
+    public PageInfo<QuestionDTO> list(String search, Integer page, Integer size) {
         PageHelper.startPage(page, size);
         QuestionExample example = new QuestionExample();
         example.setOrderByClause("`gmt_modified` DESC, `id` DESC");
